@@ -1,12 +1,12 @@
 import { Todo } from "../models/models";
 
-// src/redux/actions.ts
 export const ADD_TODO = "ADD_TODO";
 export const TOGGLE_TODO = "TOGGLE_TODO";
 export const EDIT_TODO = "EDIT_TODO";
 export const DELETE_TODO = "DELETE_TODO";
 export const SET_TODOS = "SET_TODOS";
 export const SET_COMPLETED_TODOS = "SET_COMPLETED_TODOS";
+export const SET_IN_PROGRESS_TODOS = "SET_IN_PROGRESS_TODOS";
 
 interface SetTodosAction {
   type: typeof SET_TODOS;
@@ -18,6 +18,10 @@ interface SetCompletedTodosAction {
   payload: Todo[];
 }
 
+interface SetInProgressTodosAction {
+  type: typeof SET_IN_PROGRESS_TODOS;
+  payload: Todo[];
+}
 
 interface AddTodoAction {
   type: typeof ADD_TODO;
@@ -39,14 +43,14 @@ interface DeleteTodoAction {
   payload: number; // id of the todo
 }
 
-
-  export type TodoActionTypes =
+export type TodoActionTypes =
   | AddTodoAction
   | ToggleTodoAction
   | EditTodoAction
   | DeleteTodoAction
   | SetTodosAction
-  | SetCompletedTodosAction;
+  | SetCompletedTodosAction
+  | SetInProgressTodosAction; // Removed extra semicolon
 
 export const addTodo = (id: number, todo: string, isDone: boolean): TodoActionTypes => ({
   type: ADD_TODO,
@@ -76,4 +80,9 @@ export const setTodos = (todos: Todo[]): TodoActionTypes => ({
 export const setCompletedTodos = (completedTodos: Todo[]): TodoActionTypes => ({
   type: SET_COMPLETED_TODOS,
   payload: completedTodos,
+});
+
+export const setInProgressTodos = (inProgressTodos: Todo[]): TodoActionTypes => ({
+  type: SET_IN_PROGRESS_TODOS,
+  payload: inProgressTodos,
 });

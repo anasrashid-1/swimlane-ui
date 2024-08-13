@@ -48,7 +48,7 @@
 .todos {
   display: flex;
   flex-direction: column;
-  width: 47.5%;
+  width: 30.5%;
   padding: 15px;
   background-color: orange;
 }
@@ -63,6 +63,10 @@
 
 .remove {
   background-color: green;
+}
+
+.progress{
+  background-color: purple;
 }
 
 .todos__heading {

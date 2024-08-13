@@ -1,24 +1,24 @@
-// src/components/TodoList.tsx
-import React from "react";
+import { Droppable } from "react-beautiful-dnd";
 import { Todo } from "../models/models";
 import SingleTodo from "./SingleTodo";
-import { Droppable } from "react-beautiful-dnd";
 
 interface Props {
   todos: Array<Todo>;
-  setTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
+  setTodos: (todos: Todo[]) => void;
   CompletedTodos: Array<Todo>;
-  setCompletedTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
+  setCompletedTodos: (todos: Todo[]) => void;
+  InProgressTodos: Array<Todo>;
+  setInProgressTodos: (todos: Todo[]) => void;
 }
 
 const TodoList: React.FC<Props> = ({
-  todos = [],
+  todos,
   setTodos,
-  CompletedTodos = [],
+  CompletedTodos,
   setCompletedTodos,
+  InProgressTodos,
+  setInProgressTodos,
 }) => {
-  console.log("Active Todos:", todos);
-  console.log("Completed Todos:", CompletedTodos);
   return (
     <div className="container">
       <Droppable droppableId="TodosList">
@@ -46,6 +46,33 @@ const TodoList: React.FC<Props> = ({
           </div>
         )}
       </Droppable>
+
+      <Droppable droppableId="InProgressList">
+        {(provided, snapshot) => (
+          <div
+            className={`todos ${snapshot.isDraggingOver ? "dragactive" : "progress"}`}
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            <span className="todos__heading">In Progress Tasks</span>
+            {InProgressTodos.length > 0 ? (
+              InProgressTodos.map((todo, index) => (
+                <SingleTodo
+                  index={index}
+                  todos={InProgressTodos}
+                  todo={todo}
+                  key={todo.id}
+                  setTodos={setInProgressTodos}
+                />
+              ))
+            ) : (
+              <p>No in-progress tasks</p>
+            )}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+
       <Droppable droppableId="TodosRemove">
         {(provided, snapshot) => (
           <div
@@ -76,5 +103,6 @@ const TodoList: React.FC<Props> = ({
     </div>
   );
 };
+
 
 export default TodoList;
